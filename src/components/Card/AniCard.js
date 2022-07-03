@@ -5,7 +5,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
-function AniCard({ item, onClick }) {
+function AniCard({ item, onClick, removable, onButtonClick }) {
+
   const { title, coverImage } = item;
 
   return (
@@ -23,11 +24,19 @@ function AniCard({ item, onClick }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Add To Collections
-        </Button>
-      </CardActions>
+      {removable
+        ? <CardActions>
+            <Button size="small" color="error" onClick={onButtonClick}>
+              Remove From Collections
+            </Button>
+          </CardActions>
+        : <CardActions>
+            <Button size="small" color="primary">
+              Add To Collections
+            </Button>
+          </CardActions>
+      }
+      
     </Card>
   );
 }

@@ -48,7 +48,7 @@ function HomePage() {
           </Grid>
         ))}
       </Grid>
-        <Pagination pageInfo={pageInfo} onPageChange={pageChange} page={currentPage} />
+      <Pagination pageInfo={pageInfo} onPageChange={pageChange} page={currentPage} />
     </Stack>
   )
 

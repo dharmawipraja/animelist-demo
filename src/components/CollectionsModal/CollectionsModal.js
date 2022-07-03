@@ -10,6 +10,7 @@ import Button  from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { FiPlusCircle, FiSave } from "react-icons/fi";
 import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
+import { addCollectionList } from '../../utils/collectionUtils';
 
 const style = {
   position: 'absolute',
@@ -89,22 +90,9 @@ function CollectionsModal({ data, isOpen, onClose }) {
   };
 
   const onSubmitButton = () => {
-    // eslint-disable-next-line
-    collectionCheck.map(item => {
-      // eslint-disable-next-line
-      collections.find(value => {
-        const { title, animeList } = value;
-        const match = item === title;
+    const result = addCollectionList(collections, collectionCheck, data)
 
-        if (match) {
-          const isExist = animeList.find(anime => anime.id === data.id);
-          
-          !isExist && animeList.push(data);
-        }
-      })
-    })
-
-    saveToLocalStorage('collections', collections);
+    saveToLocalStorage('collections', result);
     onClose();
   };
 
