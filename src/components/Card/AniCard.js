@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,7 +18,7 @@ function AniCard({ item, onClick }) {
           alt="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div" el noWrap>
+          <Typography gutterBottom variant="h6" component="div" el="true" noWrap>
             {title.romaji}
           </Typography>
         </CardContent>
