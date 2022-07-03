@@ -10,7 +10,7 @@ import Button  from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { FiPlusCircle, FiSave } from "react-icons/fi";
 import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
-import { addCollectionList } from '../../utils/collectionUtils';
+import { addCollectionList, createNewCollection } from '../../utils/collectionUtils';
 
 const style = {
   position: 'absolute',
@@ -44,12 +44,9 @@ function CollectionsModal({ data, isOpen, onClose }) {
   const { collectionName, collectionCheck } = watchedValue(watch)
 
   const onCreateCollection = () => {
-    collections.push({
-      title: collectionName,
-      animeList: []
-    });
+    const result = createNewCollection(collections, collectionName)
 
-    saveToLocalStorage('collections', collections);
+    saveToLocalStorage('collections', result);
     setCreateCollection(false);
   }
 

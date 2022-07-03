@@ -57,4 +57,13 @@ export const updateCollectionList = (collectionName, data) => {
   })
 
   return collections;
-}
+};
+
+export const createNewCollection = (collections, name) => {
+  collections.push({
+    title: name,
+    animeList: []
+  });
+
+  return collections;
+};

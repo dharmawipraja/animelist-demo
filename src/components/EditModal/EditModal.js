@@ -32,7 +32,7 @@ const watchedValue = (watch) => {
   };
 };
 
-function EditModal({ title, isOpen, onClose, onSubmit }) {
+function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
   const { register, watch, reset } = useForm();
   const { collectionName } = watchedValue(watch)
 
@@ -75,7 +75,7 @@ function EditModal({ title, isOpen, onClose, onSubmit }) {
           <Box sx={style}>
             <Stack spacing={3} sx={{ height: '90%'}} >
               <Typography id="transition-modal-title" variant="h5" component="h2">
-                Edit Collection Name
+                {isCreate ? "Create New Collection" : "Edit Collection Name"}
               </Typography>
               {renderAddCollection()}
             </Stack>

@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Card, CardActionArea, CardContent, Typography, Box, CardMedia, Button } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { FiTrash2, FiEdit } from 'react-icons/fi';
+import { FiTrash2, FiEdit, FiPlusCircle } from 'react-icons/fi';
 
 import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
 import { bannerPlaceholder } from '../../assets/images';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import { useModal } from '../../hooks/useModal';
 import EditModal from '../../components/EditModal/EditModal';
+import { createNewCollection } from '../../utils/collectionUtils';
 
 function CollectionsPage() {
   const collections = getFromLocalStorage('collections');
@@ -23,6 +31,11 @@ function CollectionsPage() {
     showModal: showEditModal,
     closeModal: closeEditModal,
     isShowModal: isShowEditModal
+  } = useModal();
+  const { 
+    showModal: showCreateModal,
+    closeModal: closeCreateModal,
+    isShowModal: isShowCreateModal
   } = useModal();
 
   const onCardClick = (name) => () => {
@@ -60,7 +73,20 @@ function CollectionsPage() {
     saveToLocalStorage('collections', collections);
     setList(collections);
     closeEditModal();
+  };
+
+  const onCreateNew = () => {
+    showCreateModal();
   }
+
+  const onCreateConfirm = (name) => {
+    const result = createNewCollection(collections, name);
+
+    saveToLocalStorage('collections', result);
+    setList(result);
+    closeCreateModal();
+
+  };
 
   const renderContent = (item) => {
     const { title, animeList } = item;
@@ -103,7 +129,14 @@ function CollectionsPage() {
 
   return (
     <Box>
-      {list.map(item => renderContent(item))}
+      <Stack spacing={5}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={onCreateNew} variant='outlined' sx={{ width: '20%' }} startIcon={<FiPlusCircle />}>
+            Create New Collection
+          </Button>
+        </Box>
+        {list.map(item => renderContent(item))}
+      </Stack>
       <ConfirmationModal
         isOpen={isShowConfirmationModal}
         onClose={closeConfirmationModal}
@@ -116,6 +149,12 @@ function CollectionsPage() {
         isOpen={isShowEditModal}
         onClose={closeEditModal}
         onSubmit={onEditConfirm}
+      />
+      <EditModal
+        isOpen={isShowCreateModal}
+        onClose={closeCreateModal}
+        isCreate
+        onSubmit={onCreateConfirm}
       />
     </Box>
   )
