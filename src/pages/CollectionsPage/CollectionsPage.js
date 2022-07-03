@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardActionArea, CardContent, Typography, Box, CardMedia, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { FiTrash2, FiEdit } from 'react-icons/fi';
@@ -25,12 +25,6 @@ function CollectionsPage() {
     isShowModal: isShowEditModal
   } = useModal();
 
-  useEffect(() => {
-    setList(collections)
-    
-    // eslint-disable-next-line
-  }, [isShowEditModal])
-
   const onCardClick = (name) => () => {
     navigate(`/collection/${name}`)
   };
@@ -53,6 +47,20 @@ function CollectionsPage() {
     setCollectionName(name);
     showEditModal();
   };
+
+  const onEditConfirm = (name) => {
+    const index = collections.findIndex(item => item.title === collectionName);
+
+    if (index < 0) {
+      return;
+    };
+
+    collections[index].title = name;
+
+    saveToLocalStorage('collections', collections);
+    setList(collections);
+    closeEditModal();
+  }
 
   const renderContent = (item) => {
     const { title, animeList } = item;
@@ -107,6 +115,7 @@ function CollectionsPage() {
         title={collectionName}
         isOpen={isShowEditModal}
         onClose={closeEditModal}
+        onSubmit={onEditConfirm}
       />
     </Box>
   )

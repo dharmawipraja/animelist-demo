@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button  from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
-import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
 
 const style = {
   position: 'absolute',
@@ -33,10 +32,13 @@ const watchedValue = (watch) => {
   };
 };
 
-function EditModal({ title, isOpen, onClose }) {
-  const collections = getFromLocalStorage('collections');
-  const { register, watch } = useForm();
+function EditModal({ title, isOpen, onClose, onSubmit }) {
+  const { register, watch, reset } = useForm();
   const { collectionName } = watchedValue(watch)
+
+  useEffect(() => {
+    reset();
+  }, [isOpen, reset]);
 
   const renderAddCollection = () => (
     <form>
@@ -52,17 +54,8 @@ function EditModal({ title, isOpen, onClose }) {
 
   )
 
-  const onSubmitButton = () => {
-    const index = collections.findIndex(item => item.title === title);
-
-    if (index < 0) {
-      return;
-    };
-
-    collections[index].title = collectionName;
-
-    saveToLocalStorage('collections', collections);
-    onClose();
+  const onSubmitButton = (onSubmit) => () => {
+    onSubmit(collectionName)
   };
 
   return (
@@ -87,7 +80,7 @@ function EditModal({ title, isOpen, onClose }) {
               {renderAddCollection()}
             </Stack>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-              <Button variant="contained" onClick={onSubmitButton}>Submit</Button>
+              <Button variant="contained" onClick={onSubmitButton(onSubmit)}>Submit</Button>
             </Box>
           </Box>
         </Fade>
