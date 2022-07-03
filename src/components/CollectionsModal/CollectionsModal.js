@@ -73,7 +73,7 @@ function CollectionsModal({ data, isOpen, onClose }) {
         collections.map((item) => (
         <form>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography >
+            <Typography key={item.title}>
               {item.title}
             </Typography>
             <input

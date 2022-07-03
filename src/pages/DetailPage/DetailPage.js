@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
+import Chip from '@mui/material/Chip';
 import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
 import Button  from '@mui/material/Button';
 import { FiHeart } from "react-icons/fi";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import { ANIME_DETAIL_QUERY } from '../../graphql/animeQuery';
 import { useModal } from '../../hooks/useModal';
 import CollectionsModal from '../../components/CollectionsModal/CollectionsModal';
+import { getCollectionList } from '../../utils/collectionUtils';
+
+const onCollectionClick = (navigate, name) => () => {
+  navigate(`/collection/${name}`)
+}
 
 function DetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { isShowModal, showModal, closeModal } = useModal();
+  const [collectionList, setCollectionList] = useState([])
   const { data, loading } = useQuery(
     ANIME_DETAIL_QUERY, {
       variables: {
@@ -28,14 +36,21 @@ function DetailPage() {
   const animeDetail = data?.Media;
   const { title, coverImage, bannerImage, description } = !loading && animeDetail;
 
-  // TO DO: get collection from storage
-  const isCollection = false;
+  useEffect(() => {
+    const list = getCollectionList(collectionList, id);
+    const result = [...new Set(list)];
+
+    setCollectionList(result);
+    // eslint-disable-next-line
+  }, [isShowModal])
+
+  const isCollection = collectionList.length > 0;
   const color = isCollection ? 'red' : '#5c728a';
   const fill = isCollection ? 'red' : 'transparent';
 
   const onAddCollection = () => {
     showModal();
-  }
+  };
 
   const renderContent = () => (
     <Stack>
@@ -84,6 +99,11 @@ function DetailPage() {
           <Typography gutterBottom variant="body1" component="div" el="true" color='#7a858f'>
             {description}
           </Typography>
+          <Stack sx={{ marginTop: 10 }} direction="row" spacing={1}>
+            {collectionList.map(item => (
+              <Chip label={item} variant="outlined" onClick={onCollectionClick(navigate, item)} />
+            ))}
+          </Stack>
         </Box>
       </Box>
       <CollectionsModal isOpen={isShowModal} onClose={closeModal} data={animeDetail} />
