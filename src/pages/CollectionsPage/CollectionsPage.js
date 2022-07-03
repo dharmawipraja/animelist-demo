@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardActionArea, CardContent, Typography, Box, CardMedia, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { FiTrash2, FiEdit } from 'react-icons/fi';
@@ -7,6 +7,7 @@ import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorag
 import { bannerPlaceholder } from '../../assets/images';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
 import { useModal } from '../../hooks/useModal';
+import EditModal from '../../components/EditModal/EditModal';
 
 function CollectionsPage() {
   const collections = getFromLocalStorage('collections');
@@ -18,6 +19,17 @@ function CollectionsPage() {
     closeModal: closeConfirmationModal,
     isShowModal: isShowConfirmationModal
   } = useModal();
+  const { 
+    showModal: showEditModal,
+    closeModal: closeEditModal,
+    isShowModal: isShowEditModal
+  } = useModal();
+
+  useEffect(() => {
+    setList(collections)
+    
+    // eslint-disable-next-line
+  }, [isShowEditModal])
 
   const onCardClick = (name) => () => {
     navigate(`/collection/${name}`)
@@ -38,15 +50,8 @@ function CollectionsPage() {
   }
 
   const onEdit = (name) => () => {
-    console.log('edit', name)
-    // const index = collections.findIndex(item => item.title === collectionName);
-
-    // if (index < 0) {
-    //   return;
-    // };
-
-    // collections[index].title = collections
-    // console.log()
+    setCollectionName(name);
+    showEditModal();
   };
 
   const renderContent = (item) => {
@@ -97,6 +102,11 @@ function CollectionsPage() {
         title="Delete ?"
         subtitle="Are you sure you want to delete this collection ?"
         onConfirm={onDeleteConfirm}
+      />
+      <EditModal
+        title={collectionName}
+        isOpen={isShowEditModal}
+        onClose={closeEditModal}
       />
     </Box>
   )
