@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
 import HomePage from './pages/HomePage/HomePage';
+import DetailPage from './pages/DetailPage/DetailPage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             {/* <Route path="collection" element={<CollectionPage />} /> */}
-            {/* <Route path="detail/:id" element={<DetailPage />} /> */}
+            <Route path="detail/:id" element={<DetailPage />} />
           </Routes>
         </Box>
     </BrowserRouter>

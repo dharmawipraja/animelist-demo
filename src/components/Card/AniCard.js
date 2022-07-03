@@ -15,7 +15,7 @@ function AniCard({ item, onClick }) {
           component="img"
           height="300"
           image={coverImage.large}
-          alt="green iguana"
+          alt={title.romaji}
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="div" el="true" noWrap>
