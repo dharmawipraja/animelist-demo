@@ -12,9 +12,12 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import { ANIME_DETAIL_QUERY } from '../../graphql/animeQuery';
+import { useModal } from '../../hooks/useModal';
+import CollectionsModal from '../../components/CollectionsModal/CollectionsModal';
 
 function DetailPage() {
   const { id } = useParams();
+  const { isShowModal, showModal, closeModal } = useModal();
   const { data, loading } = useQuery(
     ANIME_DETAIL_QUERY, {
       variables: {
@@ -29,6 +32,10 @@ function DetailPage() {
   const isCollection = false;
   const color = isCollection ? 'red' : '#5c728a';
   const fill = isCollection ? 'red' : 'transparent';
+
+  const onAddCollection = () => {
+    showModal();
+  }
 
   const renderContent = () => (
     <Stack>
@@ -61,7 +68,7 @@ function DetailPage() {
                 alt={title.romaji}
               />
             <CardActions>
-              <Button size="medium" color="primary">
+              <Button size="medium" color="primary" onClick={onAddCollection}>
                 <Typography sx={{ fontSize: 14, marginRight: 4, color: '#5c728a' }}>
                   Add To Collections
                 </Typography>
@@ -79,6 +86,7 @@ function DetailPage() {
           </Typography>
         </Box>
       </Box>
+      <CollectionsModal isOpen={isShowModal} onClose={closeModal} data={animeDetail} />
     </Stack>
     );
 

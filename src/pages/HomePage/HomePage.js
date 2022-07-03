@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -10,12 +10,22 @@ import AniCard from '../../components/Card/AniCard';
 import { ANIME_LIST_QUERY } from '../../graphql/animeQuery';
 import Pagination from '../../components/Pagination/Pagination';
 import { usePagination } from '../../hooks/usePagination';
+import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
 
 const onClick = (navigate, item) => () => {
   navigate(`/detail/${item.id}`)
 }
 
 function HomePage() {
+  const collections = getFromLocalStorage('collections');
+  
+  useEffect(() => {
+    if (!Array.isArray(collections)) {
+      saveToLocalStorage('collections', [])
+    };
+    // eslint-disable-next-line
+  }, []);
+
   const navigate = useNavigate();
   const { currentPage, pageChange } = usePagination();
   const { data, loading } = useQuery(

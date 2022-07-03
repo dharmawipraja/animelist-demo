@@ -27,6 +27,7 @@ export const ANIME_LIST_QUERY = gql`
 export const ANIME_DETAIL_QUERY = gql`
   query ($id: Int) {
     Media(id: $id) {
+      id
       bannerImage
       coverImage {
         large
