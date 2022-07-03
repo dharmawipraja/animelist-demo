@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import { FiTrash2 } from 'react-icons/fi';
 
 function AniCard({ item, onClick, removable, onButtonClick }) {
 
@@ -26,8 +27,8 @@ function AniCard({ item, onClick, removable, onButtonClick }) {
       </CardActionArea>
       {removable
         ? <CardActions>
-            <Button size="small" color="error" onClick={onButtonClick}>
-              Remove From Collections
+            <Button size="small" color="error" onClick={onButtonClick} startIcon={<FiTrash2 size={18} />} >
+              Remove
             </Button>
           </CardActions>
         : <CardActions>

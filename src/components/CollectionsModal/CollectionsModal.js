@@ -63,7 +63,7 @@ function CollectionsModal({ data, isOpen, onClose }) {
             variant="outlined" 
             sx={{ width: '90%' }}
           />
-        <FiSave size={28} style={{ marginTop: 10, marginLeft: 10, cursor: 'pointer' }} onClick={onCreateCollection} />
+        <FiSave size={28} style={{ mt: 10, ml: 10, cursor: 'pointer' }} onClick={onCreateCollection} />
       </Box>
     </form>
 
@@ -119,7 +119,7 @@ function CollectionsModal({ data, isOpen, onClose }) {
               {createCollection && renderAddCollection()}
                 <Button size="medium" color="primary" onClick={() => setCreateCollection(!createCollection)}>
                   <FiPlusCircle size={18} />
-                  <Typography sx={{ fontSize: 14, marginLeft: 1, color: '#5c728a' }}>
+                  <Typography sx={{ fontSize: 14, ml: 1, color: '#5c728a' }}>
                     {createCollection ? 'Cancel' : 'Create New Collection'}
                   </Typography>
                 </Button>

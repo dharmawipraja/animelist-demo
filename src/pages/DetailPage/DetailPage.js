@@ -61,7 +61,7 @@ function DetailPage() {
           height: 300
         }}
       />
-      <Box sx={{ marginLeft: 50 }}>
+      <Box sx={{ ml: 50 }}>
         <Box
           sx={{
             height: 400,
@@ -84,7 +84,7 @@ function DetailPage() {
               />
             <CardActions>
               <Button size="medium" color="primary" onClick={onAddCollection}>
-                <Typography sx={{ fontSize: 14, marginRight: 4, color: '#5c728a' }}>
+                <Typography sx={{ fontSize: 14, mr: 4, color: '#5c728a' }}>
                   Add To Collections
                 </Typography>
                 <FiHeart size={18} color={color} fill={fill} />
@@ -92,14 +92,14 @@ function DetailPage() {
             </CardActions>
           </Card>
         </Box>
-        <Box sx={{ marginTop: 4 }}>
+        <Box sx={{ mt: 4 }}>
           <Typography gutterBottom variant="h4" component="div" el="true" color='#5c728a'>
             {title.romaji}
           </Typography>
           <Typography gutterBottom variant="body1" component="div" el="true" color='#7a858f'>
             {description}
           </Typography>
-          <Stack sx={{ marginTop: 10 }} direction="row" spacing={1}>
+          <Stack sx={{ mt: 10 }} direction="row" spacing={1}>
             {collectionList.map(item => (
               <Chip label={item} variant="outlined" onClick={onCollectionClick(navigate, item)} />
             ))}

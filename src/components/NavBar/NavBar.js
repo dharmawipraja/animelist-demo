@@ -18,7 +18,6 @@ const drawerWidth = 240;
 const navItems = [
   { title: 'Home', path: '/' },
   { title: 'Collections', path: '/collections' },
-  { title: 'About', path: '/about' },
 ];
 
 function NavBar(props) {
@@ -51,7 +50,7 @@ function NavBar(props) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar component="nav" sx={{ backgroundColor: '#2b2d42' }}>
+      <AppBar component="nav" sx={{ bgcolor: '#2b2d42' }}>
         <Toolbar>
           <IconButton
             color="inherit"
