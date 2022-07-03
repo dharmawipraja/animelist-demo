@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -7,10 +7,13 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button  from '@mui/material/Button';
+import FormHelperText from '@mui/material/FormHelperText';
 import { useForm } from 'react-hook-form';
 import { FiPlusCircle, FiSave } from "react-icons/fi";
+
 import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
 import { addCollectionList, createNewCollection } from '../../utils/collectionUtils';
+import { isButtonDisabled, validateCollectionNameForm } from '../../utils/inputValidation';
 
 const style = {
   position: 'absolute',
@@ -40,10 +43,21 @@ const watchedValue = (watch) => {
 function CollectionsModal({ data, isOpen, onClose }) {
   const collections = getFromLocalStorage('collections');
   const [createCollection, setCreateCollection] = useState(false);
-  const { register, watch } = useForm();
-  const { collectionName, collectionCheck } = watchedValue(watch)
+  const { reset, register, watch, setError, formState: { errors } } = useForm();
+  const { collectionName, collectionCheck } = watchedValue(watch);
+  const isDisabled = isButtonDisabled('', collectionName);
+
+  useEffect(() => {
+    reset();
+  }, [createCollection, isOpen, reset]);
 
   const onCreateCollection = () => {
+    validateCollectionNameForm('collectionNameForm', collectionName, setError);
+
+    if (errors['collectionNameForm']?.message) {
+      return;
+    }
+
     const result = createNewCollection(collections, collectionName)
 
     saveToLocalStorage('collections', result);
@@ -52,7 +66,8 @@ function CollectionsModal({ data, isOpen, onClose }) {
 
   const renderAddCollection = () => (
     <form>
-      <Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
           <TextField
             {...register("collectionName", { required: true })}
             id="outlined-basic" 
@@ -60,7 +75,20 @@ function CollectionsModal({ data, isOpen, onClose }) {
             variant="outlined" 
             sx={{ width: '90%' }}
           />
-        <FiSave size={28} style={{ mt: 10, ml: 10, cursor: 'pointer' }} onClick={onCreateCollection} />
+          <FiSave
+            size={28}
+            onClick={onCreateCollection}
+            style={{
+              marginLeft: 10,
+              cursor: 'pointer',
+              pointerEvents: isDisabled ? 'none' : 'auto'
+            }}
+            color={isDisabled && "#D3D3D3"}
+          />
+        </Box>
+        <Box>
+          <FormHelperText sx={{ color: 'red' }}>{errors["collectionNameForm"]?.message}</FormHelperText>
+        </Box>
       </Box>
     </form>
 
@@ -120,10 +148,10 @@ function CollectionsModal({ data, isOpen, onClose }) {
                     {createCollection ? 'Cancel' : 'Create New Collection'}
                   </Typography>
                 </Button>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', pb: 5 }} >
+                  <Button variant="contained" onClick={onSubmitButton} >Submit</Button>
+                </Box>
             </Stack>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-              <Button variant="contained" onClick={onSubmitButton} >Submit</Button>
-            </Box>
           </Box>
         </Fade>
       </MUIModal>

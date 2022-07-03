@@ -7,7 +7,10 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button  from '@mui/material/Button';
+import FormHelperText from '@mui/material/FormHelperText';
 import { useForm } from 'react-hook-form';
+
+import { isButtonDisabled, validateCollectionNameForm } from '../../utils/inputValidation';
 
 const style = {
   position: 'absolute',
@@ -33,8 +36,9 @@ const watchedValue = (watch) => {
 };
 
 function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
-  const { register, watch, reset } = useForm();
-  const { collectionName } = watchedValue(watch)
+  const { register, watch, reset, setError, formState: { errors } } = useForm();
+  const { collectionName } = watchedValue(watch);
+  const isDisabled = isButtonDisabled(title, collectionName);
 
   useEffect(() => {
     reset();
@@ -50,13 +54,20 @@ function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
         sx={{ width: '90%' }}
         defaultValue={title}
       />
+      <FormHelperText sx={{ color: 'red' }}>{errors["collectionNameForm"]?.message}</FormHelperText>
     </form>
-
   )
 
   const onSubmitButton = (onSubmit) => () => {
+    validateCollectionNameForm('collectionNameForm', collectionName, setError);
+
+    if (errors['collectionNameForm']?.message) {
+      return;
+    }
+
     onSubmit(collectionName)
   };
+
 
   return (
     <div>
@@ -80,7 +91,7 @@ function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
               {renderAddCollection()}
             </Stack>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-              <Button variant="contained" onClick={onSubmitButton(onSubmit)}>Submit</Button>
+              <Button variant="contained" onClick={onSubmitButton(onSubmit)} disabled={isDisabled}>Submit</Button>
             </Box>
           </Box>
         </Fade>
