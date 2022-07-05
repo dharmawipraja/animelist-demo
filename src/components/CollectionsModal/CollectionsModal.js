@@ -146,7 +146,7 @@ function CollectionsModal({ data, isOpen, onClose, collectionList }) {
               <Typography id="transition-modal-title" variant="h5" component="h2">
                 Add To Collections
               </Typography>
-              {collections.length > 0 && renderCollectionList()}
+              {collections?.length > 0 && renderCollectionList()}
               {createCollection && renderAddCollection()}
                 <Button size="medium" color="primary" onClick={() => setCreateCollection(!createCollection)}>
                   <FiPlusCircle size={18} />

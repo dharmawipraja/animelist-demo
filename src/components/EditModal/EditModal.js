@@ -42,9 +42,9 @@ function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
   const { collectionName } = watchedValue(watch);
   const isDisabled = isButtonDisabled(title, collectionName);
 
-  useEffect(() => {
-    reset();
-  }, [isOpen, reset]);
+  // useEffect(() => {
+  //   reset();
+  // }, [isOpen, reset]);
 
   const renderAddCollection = () => (
     <form>
