@@ -15,6 +15,7 @@ import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorag
 import { addCollectionList, createNewCollection } from '../../utils/collectionUtils';
 import { isButtonDisabled, validateCollectionNameForm } from '../../utils/inputValidation';
 import { mq } from '../../utils/mediaQueriesUtils';
+import { useToasts } from '../../context/Toast/ToastContext';
 
 const style = {
   position: 'absolute',
@@ -45,6 +46,7 @@ const watchedValue = (watch) => {
 function CollectionsModal({ data, isOpen, onClose, collectionList }) {
   const collections = getFromLocalStorage('collections');
   const [createCollection, setCreateCollection] = useState(false);
+  const { showToast } = useToasts();
   const { reset, register, watch, setError, formState: { errors } } = useForm();
   const { collectionName, collectionCheck } = watchedValue(watch);
   const isDisabled = isButtonDisabled('', collectionName);
@@ -125,6 +127,7 @@ function CollectionsModal({ data, isOpen, onClose, collectionList }) {
 
     saveToLocalStorage('collections', result);
     onClose();
+    showToast("Anime added to collections");
   };
 
   return (

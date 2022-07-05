@@ -7,6 +7,7 @@ import DetailPage from './pages/DetailPage/DetailPage';
 import CollectionsPage from './pages/CollectionsPage/CollectionsPage';
 import CollectionDetailPage from './pages/CollectionDetailPage/CollectionDetailPage';
 import { mq } from './utils/mediaQueriesUtils';
+import { ToastProvider } from './context/Toast/ToastContext';
 
 const AppRoutes = [
   { path: '/', element: <HomePage /> },
@@ -18,7 +19,8 @@ const AppRoutes = [
 function App() {
   return (
     <BrowserRouter>
-        <NavBar />
+      <NavBar />
+      <ToastProvider>
         <Box component="main" sx={{ pb: 5, pt: 15, px: 10, [mq]: { px: 3 } }}>
           <Routes>
             {AppRoutes.map(({ path, element }) => (
@@ -26,6 +28,7 @@ function App() {
             ))}
           </Routes>
         </Box>
+      </ToastProvider>
     </BrowserRouter>
   );
 }

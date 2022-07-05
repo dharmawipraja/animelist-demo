@@ -18,12 +18,14 @@ import EditModal from '../../components/EditModal/EditModal';
 import { createNewCollection } from '../../utils/collectionUtils';
 import { useWindowDimensions } from '../../hooks/useWindowDimension';
 import { mq } from '../../utils/mediaQueriesUtils';
+import { useToasts } from '../../context/Toast/ToastContext';
 
 function CollectionsPage() {
   const collections = getFromLocalStorage('collections');
   const [list, setList] = useState(collections);
   const [collectionName, setCollectionName] = useState('');
   const navigate = useNavigate();
+  const { showToast } = useToasts();
   const { isMobile } = useWindowDimensions()
 
   const { 
@@ -58,6 +60,7 @@ function CollectionsPage() {
 
     setList(filteredData);
     closeConfirmationModal();
+    showToast("Collection Deleted");
   }
 
   const onEdit = (name) => () => {
@@ -77,6 +80,7 @@ function CollectionsPage() {
     saveToLocalStorage('collections', collections);
     setList(collections);
     closeEditModal();
+    showToast("Colection name has been updated");
   };
 
   const onCreateNew = () => {
@@ -89,7 +93,7 @@ function CollectionsPage() {
     saveToLocalStorage('collections', result);
     setList(result);
     closeCreateModal();
-
+    showToast("Collection created");
   };
 
   const renderContent = (item) => {

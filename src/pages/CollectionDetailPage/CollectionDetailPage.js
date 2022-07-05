@@ -10,10 +10,12 @@ import { getAnimeList, updateCollectionList } from '../../utils/collectionUtils'
 import { saveToLocalStorage } from '../../utils/localStorage';
 import { useModal } from '../../hooks/useModal';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+import { useToasts } from '../../context/Toast/ToastContext';
 
 function CollectionDetailPage() {
   const { name } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToasts();
   const { isShowModal, showModal, closeModal } = useModal();
   const animeList = getAnimeList(name);
   const [list, setList] = useState(animeList)
@@ -26,6 +28,7 @@ function CollectionDetailPage() {
     saveToLocalStorage('collections', result);
     setList(filteredData);
     closeModal();
+    showToast("Anime removed from collection");
   }
 
   const onRemove = (item) => () => {
