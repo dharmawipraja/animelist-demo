@@ -19,7 +19,7 @@ export const isUnique = (formName, name, setError) => {
 };
 
 export const isAlphaNumeric = (formName, name, setError) => {
-  const result = /^[a-z0-9]+$/i.test(name);
+  const result = /^[a-z0-9\s]+$/i.test(name);
 
   if (!result) {
     setError(formName, {
