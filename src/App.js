@@ -6,17 +6,24 @@ import HomePage from './pages/HomePage/HomePage';
 import DetailPage from './pages/DetailPage/DetailPage';
 import CollectionsPage from './pages/CollectionsPage/CollectionsPage';
 import CollectionDetailPage from './pages/CollectionDetailPage/CollectionDetailPage';
+import { mq } from './utils/mediaQueriesUtils';
+
+const AppRoutes = [
+  { path: '/', element: <HomePage /> },
+  { path: 'collections', element: <CollectionsPage /> },
+  { path: 'detail/:id', element: <DetailPage /> },
+  { path: 'collection/:name', element: <CollectionDetailPage /> }
+];
 
 function App() {
   return (
     <BrowserRouter>
         <NavBar />
-        <Box component="main" sx={{ pb: 5, pt: 15, px: 10 }}>
+        <Box component="main" sx={{ pb: 5, pt: 15, px: 10, [mq]: { px: 3 } }}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="collections" element={<CollectionsPage />} />
-            <Route path="detail/:id" element={<DetailPage />} />
-            <Route path="collection/:name" element={<CollectionDetailPage />} />
+            {AppRoutes.map(({ path, element }) => (
+              <Route path={path} element={element} />
+            ))}
           </Routes>
         </Box>
     </BrowserRouter>

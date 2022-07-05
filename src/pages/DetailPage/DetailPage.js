@@ -16,6 +16,7 @@ import { ANIME_DETAIL_QUERY } from '../../graphql/animeQuery';
 import { useModal } from '../../hooks/useModal';
 import CollectionsModal from '../../components/CollectionsModal/CollectionsModal';
 import { getCollectionList } from '../../utils/collectionUtils';
+import { mq } from '../../utils/mediaQueriesUtils';
 
 const onCollectionClick = (navigate, name) => () => {
   navigate(`/collection/${name}`)
@@ -53,15 +54,16 @@ function DetailPage() {
   };
 
   const renderContent = () => (
-    <Stack>
+    <Stack sx={{ [mq]: { display: 'flex', alignItems: 'center' } }}>
       <Box 
         sx={{
           display: 'flex',
           backgroundImage: `url(${bannerImage})`,
-          height: 300
+          height: 300,
+          [mq]: { height: 0 }
         }}
       />
-      <Box sx={{ ml: 50 }}>
+      <Box sx={{ ml: 50, [mq]: { ml: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' } }}>
         <Box
           sx={{
             height: 400,
@@ -72,7 +74,12 @@ function DetailPage() {
             borderStyle: 'solid',
             borderWidth: 'medium',
             borderColor: '#fff',
-            borderRadius: 2
+            borderRadius: 2,
+            [mq]: {
+              position: 'relative',
+              top: 0,
+              left: 0,
+            }
           }}
         >
           <Card>
@@ -92,21 +99,21 @@ function DetailPage() {
             </CardActions>
           </Card>
         </Box>
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: 4, [mq]: { mt: 10 } }}>
           <Typography gutterBottom variant="h4" component="div" el="true" color='#5c728a'>
             {title.romaji}
           </Typography>
           <Typography gutterBottom variant="body1" component="div" el="true" color='#7a858f'>
             {description}
           </Typography>
-          <Stack sx={{ mt: 10 }} direction="row" spacing={1}>
+          <Stack sx={{ mt: 10, [mq]: { mt: 5, display: 'flex', flexWrap: 'wrap' } }} direction="row" spacing={1}>
             {collectionList.map(item => (
               <Chip label={item} variant="outlined" onClick={onCollectionClick(navigate, item)} />
             ))}
           </Stack>
         </Box>
       </Box>
-      <CollectionsModal isOpen={isShowModal} onClose={closeModal} data={animeDetail} />
+      <CollectionsModal collectionList={collectionList} isOpen={isShowModal} onClose={closeModal} data={animeDetail} />
     </Stack>
     );
 

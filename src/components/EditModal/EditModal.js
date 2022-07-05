@@ -11,6 +11,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { useForm } from 'react-hook-form';
 
 import { isButtonDisabled, validateCollectionNameForm } from '../../utils/inputValidation';
+import { mq } from '../../utils/mediaQueriesUtils';
 
 const style = {
   position: 'absolute',
@@ -24,7 +25,8 @@ const style = {
   border: '1px solid #d3d3d3',
   borderRadius: 3,
   boxShadow: 24,
-  p: 4
+  p: 4,
+  [mq]: { width: '80%', p: 2 }
 };
 
 const watchedValue = (watch) => {

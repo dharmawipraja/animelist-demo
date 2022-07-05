@@ -14,6 +14,7 @@ import { FiPlusCircle, FiSave } from "react-icons/fi";
 import { getFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
 import { addCollectionList, createNewCollection } from '../../utils/collectionUtils';
 import { isButtonDisabled, validateCollectionNameForm } from '../../utils/inputValidation';
+import { mq } from '../../utils/mediaQueriesUtils';
 
 const style = {
   position: 'absolute',
@@ -27,7 +28,8 @@ const style = {
   border: '1px solid #d3d3d3',
   borderRadius: 3,
   boxShadow: 24,
-  p: 4
+  p: 4,
+  [mq]: { width: '80%', p: 2 }
 };
 
 const watchedValue = (watch) => {
@@ -40,12 +42,13 @@ const watchedValue = (watch) => {
   };
 };
 
-function CollectionsModal({ data, isOpen, onClose }) {
+function CollectionsModal({ data, isOpen, onClose, collectionList }) {
   const collections = getFromLocalStorage('collections');
   const [createCollection, setCreateCollection] = useState(false);
   const { reset, register, watch, setError, formState: { errors } } = useForm();
   const { collectionName, collectionCheck } = watchedValue(watch);
   const isDisabled = isButtonDisabled('', collectionName);
+  const isCollectionsExist = collectionCheck && collectionCheck.length > 0;
 
   useEffect(() => {
     reset();
@@ -94,25 +97,28 @@ function CollectionsModal({ data, isOpen, onClose }) {
 
   )
 
-  const renderCollectionList = () => {
-    return (
-        collections.map((item) => (
-        <form>
+  const renderCollectionList = () => (
+    collections.map((item) => {
+      const isChecked = collectionList.includes(item.title)
+
+      return (
+        <form key={item.id}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography key={item.title}>
+            <Typography key={item.id}>
               {item.title}
             </Typography>
             <input
-              key={item.title}
+              key={item.id}
               type="checkbox"
               value={item.title}
+              disabled={isChecked}
               {...register("collectionCheck")}
             />
           </Box>
         </form>
-      ))
-    );
-  };
+      )
+    })
+  );
 
   const onSubmitButton = () => {
     const result = addCollectionList(collections, collectionCheck, data)
@@ -149,7 +155,7 @@ function CollectionsModal({ data, isOpen, onClose }) {
                   </Typography>
                 </Button>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', pb: 5 }} >
-                  <Button variant="contained" onClick={onSubmitButton} >Submit</Button>
+                  <Button variant="contained" onClick={onSubmitButton} disabled={!isCollectionsExist} >Submit</Button>
                 </Box>
             </Stack>
           </Box>

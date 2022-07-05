@@ -16,12 +16,16 @@ import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationMo
 import { useModal } from '../../hooks/useModal';
 import EditModal from '../../components/EditModal/EditModal';
 import { createNewCollection } from '../../utils/collectionUtils';
+import { useWindowDimensions } from '../../hooks/useWindowDimension';
+import { mq } from '../../utils/mediaQueriesUtils';
 
 function CollectionsPage() {
   const collections = getFromLocalStorage('collections');
   const [list, setList] = useState(collections);
   const [collectionName, setCollectionName] = useState('');
   const navigate = useNavigate();
+  const { isMobile } = useWindowDimensions()
+
   const { 
     showModal: showConfirmationModal,
     closeModal: closeConfirmationModal,
@@ -90,7 +94,10 @@ function CollectionsPage() {
 
   const renderContent = (item) => {
     const { title, animeList } = item;
-    const image = animeList[0]?.bannerImage || bannerPlaceholder;
+    const bannerImage = animeList[0]?.bannerImage || bannerPlaceholder;
+    const coverImage = animeList[0]?.coverImage.large || bannerPlaceholder;
+    const image = isMobile ? coverImage : bannerImage;
+    const textVariant = isMobile ? 'h5' : 'h3';
     
     return (
       <Card sx={{ mb: 5 }}>
@@ -103,19 +110,19 @@ function CollectionsPage() {
           />
         </CardActionArea>
         <CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', [mq]: { flexDirection: 'column' } }}>
             <Box onClick={onCardClick(title)} sx={{ flex: 3, cursor: 'pointer' }}>
-              <Typography gutterBottom variant="h3" component="div" el="true" noWrap>
+              <Typography gutterBottom variant={textVariant}>
                 {title}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
-              <Button onClick={onEdit(title)} variant="contained" size="small" color="success" sx={{ height: 50, px: 5 }} startIcon={<FiEdit size={18} />} >
+            <Box sx={{ display: 'flex', flex: 1, justifyContent: 'space-around', alignItems: 'center', [mq]: { width: '100%' } }}>
+              <Button onClick={onEdit(title)} variant="contained" size="small" color="success" sx={{ height: 50, px: 5, [mq]: {  height: 40 } }} startIcon={<FiEdit size={18} />} >
                 <Typography>
                   Edit
                 </Typography>
               </Button>
-              <Button onClick={onDelete(title)} variant="contained" size="small" color="error" sx={{ height: 50, px: 3 }} startIcon={<FiTrash2 size={18} />} >
+              <Button onClick={onDelete(title)} variant="contained" size="small" color="error" sx={{ height: 50, px: 3, [mq]: { height: 40 } }} startIcon={<FiTrash2 size={18} />} >
                 <Typography>
                   Delete
                 </Typography>
@@ -131,9 +138,9 @@ function CollectionsPage() {
     <Box>
       <Stack spacing={5}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={onCreateNew} variant='outlined' sx={{ width: '20%' }} startIcon={<FiPlusCircle />}>
-            Create New Collection
-          </Button>
+        <Button onClick={onCreateNew} variant='outlined' sx={{ width: '20%', [mq]: { width: '40%' } }} startIcon={<FiPlusCircle />}>
+          {isMobile ? 'Add New' : 'Create New Collection'}
+        </Button>
         </Box>
         {list.map(item => renderContent(item))}
       </Stack>
