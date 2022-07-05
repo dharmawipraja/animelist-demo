@@ -12,6 +12,7 @@ export const ANIME_LIST_QUERY = gql`
       }
       media {
         id
+        bannerImage
         coverImage {
           large
           color
@@ -19,6 +20,7 @@ export const ANIME_LIST_QUERY = gql`
         title {
           romaji
         }
+        description
       }
     }
   }

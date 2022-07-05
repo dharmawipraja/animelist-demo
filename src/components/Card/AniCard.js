@@ -4,26 +4,42 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { FiTrash2 } from 'react-icons/fi';
+import { FiHeart, FiTrash2 } from 'react-icons/fi';
 
-function AniCard({ item, onClick, removable, onButtonClick }) {
+function AniCard({
+  item,
+  notitle,
+  onCardClick, 
+  removable,
+  onButtonClick,
+  isCollection
+}) {
+  const { id, title, coverImage } = item;
+  const color = isCollection ? 'red' : '#5c728a';
+  const fill = isCollection ? 'red' : 'transparent';
 
-  const { title, coverImage } = item;
+  const onCardActionClick = (onButtonClick) => () => {
+    onButtonClick(id);
+  };
+
+  const renderTitle = () => (
+    <CardContent>
+      <Typography gutterBottom variant="h6" component="div" el="true" noWrap>
+        {title.romaji}
+      </Typography>
+    </CardContent>
+  )
 
   return (
     <Card sx={{ maxWidth: 250 }}>
-      <CardActionArea onClick={onClick}>
+      <CardActionArea onClick={onCardClick}>
         <CardMedia
           component="img"
           height="300"
           image={coverImage.large}
           alt={title.romaji}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="div" el="true" noWrap>
-            {title.romaji}
-          </Typography>
-        </CardContent>
+        {!notitle && renderTitle()}
       </CardActionArea>
       {removable
         ? <CardActions>
@@ -32,12 +48,14 @@ function AniCard({ item, onClick, removable, onButtonClick }) {
             </Button>
           </CardActions>
         : <CardActions>
-            <Button size="small" color="primary">
-              Add To Collections
+            <Button size="small" color="primary" onClick={onCardActionClick(onButtonClick)}>
+              <Typography sx={{ fontSize: 14, mr: 4, color: '#5c728a' }}>
+                Add To Collections
+              </Typography>
+              <FiHeart size={18} color={color} fill={fill} />
             </Button>
           </CardActions>
       }
-      
     </Card>
   );
 }

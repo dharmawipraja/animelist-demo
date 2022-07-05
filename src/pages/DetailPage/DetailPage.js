@@ -3,12 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
-import CardActions from '@mui/material/CardActions';
-import CardMedia from '@mui/material/CardMedia';
-import Button  from '@mui/material/Button';
-import { FiHeart } from "react-icons/fi";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
@@ -17,6 +12,7 @@ import { useModal } from '../../hooks/useModal';
 import CollectionsModal from '../../components/CollectionsModal/CollectionsModal';
 import { getCollectionList } from '../../utils/collectionUtils';
 import { mq } from '../../utils/mediaQueriesUtils';
+import AniCard from '../../components/Card/AniCard';
 
 const onCollectionClick = (navigate, name) => () => {
   navigate(`/collection/${name}`)
@@ -35,7 +31,7 @@ function DetailPage() {
     }
   );
   const animeDetail = data?.Media;
-  const { title, coverImage, bannerImage, description } = !loading && animeDetail;
+  const { title, bannerImage, description } = !loading && animeDetail;
 
   useEffect(() => {
     const list = getCollectionList(collectionList, id);
@@ -46,8 +42,6 @@ function DetailPage() {
   }, [isShowModal])
 
   const isCollection = collectionList.length > 0;
-  const color = isCollection ? 'red' : '#5c728a';
-  const fill = isCollection ? 'red' : 'transparent';
 
   const onAddCollection = () => {
     showModal();
@@ -82,31 +76,16 @@ function DetailPage() {
             }
           }}
         >
-          <Card>
-              <CardMedia
-                component="img"
-                height="400"
-                image={coverImage.large}
-                alt={title.romaji}
-              />
-            <CardActions>
-              <Button size="medium" color="primary" onClick={onAddCollection}>
-                <Typography sx={{ fontSize: 14, mr: 4, color: '#5c728a' }}>
-                  Add To Collections
-                </Typography>
-                <FiHeart size={18} color={color} fill={fill} />
-              </Button>
-            </CardActions>
-          </Card>
+          <AniCard notitle item={animeDetail} onButtonClick={onAddCollection} isCollection={isCollection} />
         </Box>
-        <Box sx={{ mt: 4, [mq]: { mt: 10 } }}>
+        <Box sx={{ mt: 4, [mq]: { mt: 0 } }}>
           <Typography gutterBottom variant="h4" component="div" el="true" color='#5c728a'>
             {title.romaji}
           </Typography>
           <Typography gutterBottom variant="body1" component="div" el="true" color='#7a858f'>
             {description}
           </Typography>
-          <Stack sx={{ mt: 10, [mq]: { mt: 5, display: 'flex', flexWrap: 'wrap' } }} direction="row" spacing={1}>
+          <Stack sx={{ mt: 5, [mq]: { display: 'flex', flexWrap: 'wrap' } }} direction="row" spacing={1}>
             {collectionList.map(item => (
               <Chip label={item} variant="outlined" onClick={onCollectionClick(navigate, item)} />
             ))}
