@@ -48,7 +48,7 @@ function CollectionDetailPage() {
             <Grid item xs={2} sm={4} md={4} key={index}>
               <AniCard
                 removable item={item}
-                onClick={onCardClick(item)}
+                onCardClick={onCardClick(item)}
                 onButtonClick={onRemove(item)}
               />
             </Grid>
