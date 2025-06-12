@@ -81,6 +81,7 @@ function CollectionsModal({ data, isOpen, onClose, collectionList }) {
             sx={{ width: '90%' }}
           />
           <FiSave
+            data-testid="FiSave"
             size={28}
             onClick={onCreateCollection}
             style={{
@@ -88,7 +89,7 @@ function CollectionsModal({ data, isOpen, onClose, collectionList }) {
               cursor: 'pointer',
               pointerEvents: isDisabled ? 'none' : 'auto'
             }}
-            color={isDisabled && "#D3D3D3"}
+            color={isDisabled ? "#D3D3D3" : undefined}
           />
         </Box>
         <Box>
@@ -106,11 +107,10 @@ function CollectionsModal({ data, isOpen, onClose, collectionList }) {
       return (
         <form key={item.id}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography key={item.id}>
+              <Typography>
               {item.title}
             </Typography>
             <input
-              key={item.id}
               type="checkbox"
               value={item.title}
               disabled={isChecked}

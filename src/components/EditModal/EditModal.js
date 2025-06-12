@@ -43,8 +43,10 @@ function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
   const isDisabled = isButtonDisabled(title, collectionName);
 
   useEffect(() => {
-    reset();
-  }, [isOpen, reset]);
+    if (isOpen) {
+      reset({ collectionNameForm: isCreate ? '' : title || '' });
+    }
+  }, [isOpen, title, isCreate, reset]); // Ensure all relevant dependencies are included
 
   const renderAddCollection = () => (
     <form>
@@ -54,7 +56,7 @@ function EditModal({ title, isOpen, onClose, onSubmit, isCreate }) {
         label="Collection Name"
         variant="outlined" 
         sx={{ width: '90%' }}
-        defaultValue={title}
+        // defaultValue prop is removed to let react-hook-form control the value via reset
       />
       <FormHelperText sx={{ color: 'red' }}>{errors["collectionNameForm"]?.message}</FormHelperText>
     </form>
