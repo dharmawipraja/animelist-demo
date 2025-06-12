@@ -45,6 +45,11 @@
     ]
   },
   "devDependencies": {
-    "react-test-renderer": "18.2.0"
+    "react-test-renderer": "18.2.0",
+    "typescript": "^4.9.5",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/node": "^16.11.0",
+    "@types/jest": "^29.5.0"
   }
 }

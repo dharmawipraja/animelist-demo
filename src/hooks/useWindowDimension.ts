@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { WindowDimensions } from '../types'; // Adjust path if needed
 
-const getWindowDimensions = () => {
+const getWindowDimensions = (): WindowDimensions => {
   const { innerWidth: width, innerHeight: height } = window;
   const isMobile = width < 600;
   
@@ -11,11 +12,11 @@ const getWindowDimensions = () => {
   };
 };
 
-export const useWindowDimensions = () => {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+export const useWindowDimensions = (): WindowDimensions => {
+  const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>(getWindowDimensions());
 
   useEffect(() => {
-    function handleResize() {
+    function handleResize(): void {
       setWindowDimensions(getWindowDimensions());
     }
 
