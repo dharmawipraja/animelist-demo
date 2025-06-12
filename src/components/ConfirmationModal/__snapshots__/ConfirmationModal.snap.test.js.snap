@@ -18,7 +18,7 @@ exports[`ConfirmationModal should renders ConfirmationModal component 1`] = `
       className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
     >
       <p
-        className="MuiDialogContentText-root MuiTypography-root MuiTypography-body1 css-qfso29-MuiTypography-root-MuiDialogContentText-root"
+        className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 css-qfso29-MuiTypography-root-MuiDialogContentText-root"
         id="confirmation-subtitle"
       >
         This is Confirmation Modal
@@ -28,7 +28,7 @@ exports[`ConfirmationModal should renders ConfirmationModal component 1`] = `
       className="MuiDialogActions-root MuiDialogActions-spacing css-hlj6pa-MuiDialogActions-root"
     >
       <button
-        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[MockFunction]}
@@ -50,7 +50,7 @@ exports[`ConfirmationModal should renders ConfirmationModal component 1`] = `
       </button>
       <button
         autoFocus={true}
-        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+        className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[MockFunction]}
